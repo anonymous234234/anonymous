@@ -2,177 +2,126 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Supplementary Experimental Results</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplementary Materials</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            width: 100%;
             max-width: 1000px;
             margin: 0 auto;
+        }
+        h1 {
             text-align: center;
+            margin-bottom: 30px;
+        }
+        .pdf-section {
+            margin-bottom: 40px;
         }
         .pdf-container {
             width: 100%;
             height: 800px;
-            margin: 20px 0;
             border: 1px solid #ddd;
-        }
-        .navigation {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-        .page-btn {
-            margin: 5px;
-            padding: 8px 15px;
-            background-color: #f1f1f1;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .page-btn:hover {
-            background-color: #ddd;
-        }
-        .page-btn.active {
-            background-color: #4CAF50;
-            color: white;
-            border-color: #4CAF50;
-        }
-        .controls {
-            display: flex;
-            gap: 10px;
             margin-bottom: 10px;
         }
-        .control-btn {
-            padding: 8px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
+        .page-title {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+            padding: 5px;
+            background-color: #f5f5f5;
             border-radius: 4px;
-            cursor: pointer;
         }
-        .control-btn:hover {
-            background-color: #45a049;
-        }
-        .control-btn:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-        .thumbnails {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .thumbnail {
-            width: 120px;
-            height: 160px;
-            margin: 5px;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-        .thumbnail.active {
-            border-color: #4CAF50;
-        }
-        .thumbnail img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        @media (max-width: 768px) {
+            .pdf-container {
+                height: 600px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>PDF文档查看器</h1>
-        
-        <div class="controls">
-            <button id="prev-btn" class="control-btn" onclick="prevPage()" disabled>上一页</button>
-            <button id="next-btn" class="control-btn" onclick="nextPage()">下一页</button>
-        </div>
-        
-        <div class="navigation">
-            <button class="page-btn active" onclick="showPage(1)">第1页</button>
-            <button class="page-btn" onclick="showPage(2)">第2页</button>
-            <button class="page-btn" onclick="showPage(3)">第3页</button>
-            <button class="page-btn" onclick="showPage(4)">第4页</button>
-            <button class="page-btn" onclick="showPage(5)">第5页</button>
-            <button class="page-btn" onclick="showPage(6)">第6页</button>
-            <button class="page-btn" onclick="showPage(7)">第7页</button>
-            <button class="page-btn" onclick="showPage(8)">第8页</button>
-            <button class="page-btn" onclick="showPage(9)">第9页</button>
-        </div>
-        
-        <div id="pdf-viewer" class="pdf-container">
-            <object data="page1.pdf" type="application/pdf" width="100%" height="100%" id="pdf-object">
-                <p>您的浏览器无法直接显示PDF。您可以 <a id="pdf-download" href="page1.pdf">下载PDF</a> 查看。</p>
+    <h1>Supplementary Materials</h1>
+
+    <div class="pdf-section">
+        <div class="page-title">Page 1</div>
+        <div class="pdf-container">
+            <object data="page1.pdf" type="application/pdf" width="100%" height="100%">
+                <p>Your browser cannot display this PDF. You can <a href="page1.pdf">download the PDF</a> to view it.</p>
             </object>
         </div>
-        
-        <p><a id="current-download" href="page1.pdf" download>下载当前页面</a></p>
-        
-        <script>
-            let currentPage = 1;
-            const totalPages = 9;
-            
-            function showPage(pageNum) {
-                if (pageNum < 1 || pageNum > totalPages) return;
-                
-                currentPage = pageNum;
-                
-                // 更新PDF对象
-                const pdfObject = document.getElementById('pdf-object');
-                const pdfFilename = `page${pageNum}.pdf`;
-                pdfObject.data = pdfFilename;
-                
-                // 更新下载链接
-                document.getElementById('pdf-download').href = pdfFilename;
-                document.getElementById('current-download').href = pdfFilename;
-                
-                // 更新导航按钮状态
-                document.querySelectorAll('.page-btn').forEach((btn, index) => {
-                    if (index + 1 === pageNum) {
-                        btn.classList.add('active');
-                    } else {
-                        btn.classList.remove('active');
-                    }
-                });
-                
-                // 启用/禁用前进后退按钮
-                document.getElementById('prev-btn').disabled = (pageNum === 1);
-                document.getElementById('next-btn').disabled = (pageNum === totalPages);
-            }
-            
-            function nextPage() {
-                if (currentPage < totalPages) {
-                    showPage(currentPage + 1);
-                }
-            }
-            
-            function prevPage() {
-                if (currentPage > 1) {
-                    showPage(currentPage - 1);
-                }
-            }
-            
-            // 键盘导航
-            document.addEventListener('keydown', function(event) {
-                if (event.key === 'ArrowRight') {
-                    nextPage();
-                } else if (event.key === 'ArrowLeft') {
-                    prevPage();
-                }
-            });
-        </script>
+    </div>
+
+    <div class="pdf-section">
+        <div class="page-title">Page 2</div>
+        <div class="pdf-container">
+            <object data="page2.pdf" type="application/pdf" width="100%" height="100%">
+                <p>Your browser cannot display this PDF. You can <a href="page2.pdf">download the PDF</a> to view it.</p>
+            </object>
+        </div>
+    </div>
+
+    <div class="pdf-section">
+        <div class="page-title">Page 3</div>
+        <div class="pdf-container">
+            <object data="page3.pdf" type="application/pdf" width="100%" height="100%">
+                <p>Your browser cannot display this PDF. You can <a href="page3.pdf">download the PDF</a> to view it.</p>
+            </object>
+        </div>
+    </div>
+
+    <div class="pdf-section">
+        <div class="page-title">Page 4</div>
+        <div class="pdf-container">
+            <object data="page4.pdf" type="application/pdf" width="100%" height="100%">
+                <p>Your browser cannot display this PDF. You can <a href="page4.pdf">download the PDF</a> to view it.</p>
+            </object>
+        </div>
+    </div>
+
+    <div class="pdf-section">
+        <div class="page-title">Page 5</div>
+        <div class="pdf-container">
+            <object data="page5.pdf" type="application/pdf" width="100%" height="100%">
+                <p>Your browser cannot display this PDF. You can <a href="page5.pdf">download the PDF</a> to view it.</p>
+            </object>
+        </div>
+    </div>
+
+    <div class="pdf-section">
+        <div class="page-title">Page 6</div>
+        <div class="pdf-container">
+            <object data="page6.pdf" type="application/pdf" width="100%" height="100%">
+                <p>Your browser cannot display this PDF. You can <a href="page6.pdf">download the PDF</a> to view it.</p>
+            </object>
+        </div>
+    </div>
+
+    <div class="pdf-section">
+        <div class="page-title">Page 7</div>
+        <div class="pdf-container">
+            <object data="page7.pdf" type="application/pdf" width="100%" height="100%">
+                <p>Your browser cannot display this PDF. You can <a href="page7.pdf">download the PDF</a> to view it.</p>
+            </object>
+        </div>
+    </div>
+
+    <div class="pdf-section">
+        <div class="page-title">Page 8</div>
+        <div class="pdf-container">
+            <object data="page8.pdf" type="application/pdf" width="100%" height="100%">
+                <p>Your browser cannot display this PDF. You can <a href="page8.pdf">download the PDF</a> to view it.</p>
+            </object>
+        </div>
+    </div>
+
+    <div class="pdf-section">
+        <div class="page-title">Page 9</div>
+        <div class="pdf-container">
+            <object data="page9.pdf" type="application/pdf" width="100%" height="100%">
+                <p>Your browser cannot display this PDF. You can <a href="page9.pdf">download the PDF</a> to view it.</p>
+            </object>
+        </div>
     </div>
 </body>
 </html>
